@@ -1,0 +1,12 @@
+{
+  "name": "design-tokens-starter",
+  "version": "1.0.0",
+  "description": "One JSON file of design decisions, compiled to CSS, SCSS, JS and Tailwind, with a WCAG contrast gate at build time.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node build.mjs"
+  },
+  "files": ["dist", "tokens", "build.mjs"],
+  "license": "MIT"
+}

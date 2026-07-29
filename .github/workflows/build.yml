@@ -1,0 +1,26 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build tokens and run the contrast gate
+        run: node build.mjs
+
+      - name: Fail if generated files are out of date
+        run: |
+          if [ -n "$(git status --porcelain dist docs/tokens.css)" ]; then
+            echo "Generated files differ from the committed ones. Run 'node build.mjs' and commit the result."
+            git --no-pager diff --stat dist docs/tokens.css
+            exit 1
+          fi

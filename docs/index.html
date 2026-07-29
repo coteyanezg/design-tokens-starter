@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Tokens Starter — live preview</title>
+<meta name="description" content="Every token in tokens.json, rendered from the generated CSS.">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* This page uses only the generated custom properties. No hardcoded values
+     below this comment, which is the point of the demo. */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-base);
+    line-height: var(--font-leading-normal);
+    color: var(--color-neutral-900);
+    background: var(--color-neutral-100);
+  }
+  .wrap { max-width: 62rem; margin: 0 auto; padding: var(--space-8) var(--space-4) var(--space-24); }
+  header { padding: var(--space-12) 0 var(--space-8); border-bottom: 1px solid var(--color-neutral-300); }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--font-leading-tight); margin: 0 0 var(--space-3); }
+  h2 {
+    font-size: var(--font-size-sm); text-transform: uppercase; letter-spacing: .08em;
+    color: var(--color-neutral-500); font-weight: var(--font-weight-semibold);
+    margin: var(--space-12) 0 var(--space-4);
+  }
+  p.lede { color: var(--color-neutral-700); font-size: var(--font-size-lg); margin: 0; max-width: 44rem; }
+  code { font-family: var(--font-family-mono); font-size: var(--font-size-sm); }
+
+  .grid { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); }
+  .swatch {
+    background: var(--color-neutral-0); border: 1px solid var(--color-neutral-300);
+    border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);
+  }
+  .swatch .chip { height: 4.5rem; }
+  .swatch .meta { padding: var(--space-3); }
+  .swatch .name { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); }
+  .swatch .val { font-size: var(--font-size-xs); color: var(--color-neutral-500); font-family: var(--font-family-mono); }
+
+  table { width: 100%; border-collapse: collapse; background: var(--color-neutral-0);
+          border: 1px solid var(--color-neutral-300); border-radius: var(--radius-md); overflow: hidden; }
+  th, td { text-align: left; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-neutral-300); }
+  th { font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: .06em; color: var(--color-neutral-500); }
+  tr:last-child td { border-bottom: 0; }
+  td.mono { font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-neutral-700); }
+
+  .bar { background: var(--color-brand-500); height: var(--space-3); border-radius: var(--radius-full); }
+
+  .cards { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  .card { background: var(--color-neutral-0); border: 1px solid var(--color-neutral-300);
+          border-radius: var(--radius-lg); padding: var(--space-6); }
+  .card.sm { box-shadow: var(--shadow-sm); }
+  .card.md { box-shadow: var(--shadow-md); }
+  .card.lg { box-shadow: var(--shadow-lg); }
+
+  .btn {
+    display: inline-block; border: 0; cursor: pointer; text-decoration: none;
+    font-family: inherit; font-size: var(--font-size-base); font-weight: var(--font-weight-medium);
+    padding: var(--space-3) var(--space-6); border-radius: var(--radius-md);
+    background: var(--color-brand-700); color: var(--color-neutral-0);
+    transition: background var(--duration-base) ease;
+  }
+  .btn:hover { background: var(--color-brand-900); }
+  .btn.secondary { background: var(--color-neutral-100); color: var(--color-neutral-900);
+                   border: 1px solid var(--color-neutral-300); }
+  .btn:focus-visible { outline: 2px solid var(--color-brand-500); outline-offset: 2px; }
+
+  .notice { background: var(--color-accent-100); border-left: var(--space-1) solid var(--color-accent-500);
+            padding: var(--space-4) var(--space-6); border-radius: var(--radius-sm); }
+  .pill { display: inline-block; padding: var(--space-1) var(--space-3); border-radius: var(--radius-full);
+          font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); color: var(--color-neutral-0); }
+
+  footer { margin-top: var(--space-16); padding-top: var(--space-6);
+           border-top: 1px solid var(--color-neutral-300); color: var(--color-neutral-500);
+           font-size: var(--font-size-sm); }
+  footer a { color: var(--color-brand-500); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Design Tokens Starter</h1>
+    <p class="lede">Everything on this page is styled with the custom properties in
+      <code>dist/tokens.css</code>, generated from <code>tokens/tokens.json</code>.
+      Change a value in the JSON, run the build, and this page changes with it.</p>
+  </header>
+
+  <h2>Brand</h2>
+  <div class="grid" id="brand"></div>
+
+  <h2>Accent</h2>
+  <div class="grid" id="accent"></div>
+
+  <h2>Neutral</h2>
+  <div class="grid" id="neutral"></div>
+
+  <h2>Feedback</h2>
+  <div class="grid" id="feedback"></div>
+
+  <h2>Type scale</h2>
+  <table>
+    <thead><tr><th>Token</th><th>Value</th><th>Sample</th></tr></thead>
+    <tbody id="type"></tbody>
+  </table>
+
+  <h2>Spacing</h2>
+  <table>
+    <thead><tr><th>Token</th><th>Value</th><th style="width:55%">Scale</th></tr></thead>
+    <tbody id="space"></tbody>
+  </table>
+
+  <h2>Radius</h2>
+  <div class="cards" id="radius"></div>
+
+  <h2>Elevation</h2>
+  <div class="cards">
+    <div class="card sm"><strong>shadow-sm</strong><div style="color:var(--color-neutral-500)">Resting cards, table rows</div></div>
+    <div class="card md"><strong>shadow-md</strong><div style="color:var(--color-neutral-500)">Hover, dropdowns</div></div>
+    <div class="card lg"><strong>shadow-lg</strong><div style="color:var(--color-neutral-500)">Modals, popovers</div></div>
+  </div>
+
+  <h2>Components</h2>
+  <div class="card md" style="display:grid; gap:var(--space-6)">
+    <div style="display:flex; gap:var(--space-3); flex-wrap:wrap; align-items:center">
+      <button class="btn">Primary action</button>
+      <button class="btn secondary">Secondary</button>
+      <span class="pill" style="background:var(--color-feedback-success)">Success</span>
+      <span class="pill" style="background:var(--color-feedback-warning)">Warning</span>
+      <span class="pill" style="background:var(--color-feedback-danger)">Danger</span>
+      <span class="pill" style="background:var(--color-feedback-info)">Info</span>
+    </div>
+    <div class="notice">
+      <strong>Contrast is checked at build time.</strong>
+      Six foreground/background pairings must clear 4.5:1 or <code>build.mjs</code> exits non-zero
+      and CI fails the pull request.
+    </div>
+  </div>
+
+  <footer>
+    Generated preview · <a href="https://github.com/coteyanezg/design-tokens-starter">source on GitHub</a>
+  </footer>
+</div>
+
+<script>
+  const css = getComputedStyle(document.documentElement);
+  const v = (n) => css.getPropertyValue(n).trim();
+
+  const groups = {
+    brand: ['900', '700', '500', '300', '100'],
+    accent: ['500', '100'],
+    neutral: ['900', '700', '500', '300', '100', '0'],
+  };
+
+  for (const [group, steps] of Object.entries(groups)) {
+    document.getElementById(group).innerHTML = steps.map((s) => {
+      const name = `--color-${group}-${s}`;
+      return `<div class="swatch">
+        <div class="chip" style="background:${v(name)}; border-bottom:1px solid var(--color-neutral-300)"></div>
+        <div class="meta"><div class="name">${group}-${s}</div><div class="val">${v(name)}</div></div>
+      </div>`;
+    }).join('');
+  }
+
+  document.getElementById('feedback').innerHTML =
+    ['success', 'warning', 'danger', 'info'].map((k) => {
+      const name = `--color-feedback-${k}`;
+      return `<div class="swatch">
+        <div class="chip" style="background:${v(name)}"></div>
+        <div class="meta"><div class="name">${k}</div><div class="val">${v(name)}</div></div>
+      </div>`;
+    }).join('');
+
+  document.getElementById('type').innerHTML =
+    ['xs','sm','base','lg','xl','2xl','3xl','4xl'].map((s) => {
+      const name = `--font-size-${s}`;
+      return `<tr>
+        <td class="mono">font-size-${s}</td>
+        <td class="mono">${v(name)}</td>
+        <td style="font-size:${v(name)}; line-height:var(--font-leading-tight)">The quick brown fox jumps over</td>
+      </tr>`;
+    }).join('');
+
+  document.getElementById('space').innerHTML =
+    ['1','2','3','4','6','8','12','16','24'].map((s) => {
+      const name = `--space-${s}`;
+      return `<tr>
+        <td class="mono">space-${s}</td>
+        <td class="mono">${v(name)}</td>
+        <td><div class="bar" style="width:${v(name)}"></div></td>
+      </tr>`;
+    }).join('');
+
+  document.getElementById('radius').innerHTML =
+    ['sm','md','lg','full'].map((s) => `
+      <div class="card sm" style="border-radius:var(--radius-${s})">
+        <strong>radius-${s}</strong>
+        <div style="color:var(--color-neutral-500)" class="mono">${v(`--radius-${s}`)}</div>
+      </div>`).join('');
+</script>
+</body>
+</html>
