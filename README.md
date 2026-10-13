@@ -10,7 +10,7 @@ No dependencies. Node 18+. The build script is about 150 readable lines.
 
 Brand guidelines live in a PDF, the site uses hex codes typed by hand, the email templates use different hex codes typed by hand, and nobody notices until the third one ships. The fix is not a bigger PDF: it is making the guideline the thing that compiles.
 
-This repo is the smallest version of that idea that is still useful. It is deliberately not a token pipeline framework — a build step nobody on the team can read is a build step nobody maintains.
+This repo is the smallest version of that idea that is still useful. It is deliberately not a token pipeline framework: a build step nobody on the team can read is a build step nobody maintains.
 
 ## Use it
 
@@ -69,7 +69,7 @@ PASS  18.11:1  body text on cards   (color-neutral-900 on color-neutral-0)
 PASS  11.28:1  button label         (color-neutral-0 on color-brand-700)
 ```
 
-Add pairings to the `PAIRS` array as the system grows. Every pairing you add is a regression you can no longer ship — which is the whole value. Catching this in CI costs seconds; catching it in an accessibility audit costs a redesign.
+Add pairings to the `PAIRS` array as the system grows. Every pairing you add is a regression you can no longer ship, which is the whole value. Catching this in CI costs seconds; catching it in an accessibility audit costs a redesign.
 
 ## CI
 
@@ -79,8 +79,8 @@ Add pairings to the `PAIRS` array as the system grows. Every pairing you add is 
 
 - **More outputs?** Add a block at the bottom of `build.mjs`. Each output format is independent and roughly 10 lines.
 - **Dark mode?** Add a second token file and emit into a `[data-theme="dark"]` block instead of `:root`.
-- **Aliases** (`--button-bg: var(--color-brand-700)`) are worth adding once two components disagree about which raw token to use. Not before — premature aliasing produces a second vocabulary nobody learns.
+- **Aliases** (`--button-bg: var(--color-brand-700)`) are worth adding once two components disagree about which raw token to use. Not before: premature aliasing produces a second vocabulary nobody learns.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
